@@ -5,8 +5,10 @@ import Button from '@material-ui/core/Button'
 export default class extends Component {
   render() {
     return (
-      <div>
-        <Button variant='container' color='default'>Login</Button>
+      <div className='app-header'>
+        <Button className='login-button' variant='contained' color='default'>
+          Login
+        </Button>
       </div>
     )
   }
