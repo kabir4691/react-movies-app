@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import './Home.css'
-import Header from '../../common/header/Header'
+import './Header.css'
+import Button from '@material-ui/core/Button'
 
 export default class extends Component {
   render() {
     return (
       <div>
-        <Header /> 
+        <Button variant='container' color='default'>Login</Button>
       </div>
     )
   }
