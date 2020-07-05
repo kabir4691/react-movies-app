@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
+import PropTypes from 'prop-types'
 
 const modalStyle = {
   content: {
@@ -27,6 +28,10 @@ const TabContainer = (props) => {
       {props.children}
     </Typography>
   );
+}
+
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired
 }
 
 export default class extends Component {
@@ -51,18 +56,10 @@ export default class extends Component {
   }
 
   render() {
-    return (
-      <div className='app-header'>
-        <img src={logo} className='app-logo' alt='logo'/>
-        <Button className='login-button' variant='contained' color='default' onClick={this.openModalHandler}>
-          Login
-        </Button>
-        <Modal style={modalStyle} ariaHideApp={false} isOpen={this.state.isModalOpen} contentLabel='loginModal' onRequestClose={this.closeModalHandler}>
-          <Tabs className='tabs' onChange={this.tabsChangeHandler} value={this.state.tabsValue}>
-            <Tab label='Login'></Tab>
-            <Tab label='Register'></Tab>
-          </Tabs>
-          <TabContainer>
+    let tabContainer;
+    if (this.state.tabsValue === 0) {
+      tabContainer = (
+        <TabContainer>
             <FormControl required>
               <InputLabel htmlFor='username'>Username</InputLabel>
               <Input type='text' id='username'></Input>
@@ -77,6 +74,21 @@ export default class extends Component {
             <br />
             <Button variant='contained' color='primary'>Login</Button>
           </TabContainer>
+      )
+    }
+
+    return (
+      <div className='app-header'>
+        <img src={logo} className='app-logo' alt='logo'/>
+        <Button className='login-button' variant='contained' color='default' onClick={this.openModalHandler}>
+          Login
+        </Button>
+        <Modal style={modalStyle} ariaHideApp={false} isOpen={this.state.isModalOpen} contentLabel='loginModal' onRequestClose={this.closeModalHandler}>
+          <Tabs className='tabs' onChange={this.tabsChangeHandler} value={this.state.tabsValue}>
+            <Tab label='Login'></Tab>
+            <Tab label='Register'></Tab>
+          </Tabs>
+          { tabContainer }
         </Modal>
       </div>
     )
