@@ -23,7 +23,7 @@ const modalStyle = {
 
 const TabContainer = (props) => {
   return (
-    <Typography component='div' style={{ padding: 0 }}>
+    <Typography component='div' style={{ padding: 0, textAlign: 'center' }}>
       {props.children}
     </Typography>
   );
@@ -58,7 +58,7 @@ export default class extends Component {
           Login
         </Button>
         <Modal style={modalStyle} ariaHideApp={false} isOpen={this.state.isModalOpen} contentLabel='loginModal' onRequestClose={this.closeModalHandler}>
-          <Tabs onChange={this.tabsChangeHandler} value={this.state.tabsValue}>
+          <Tabs className='tabs' onChange={this.tabsChangeHandler} value={this.state.tabsValue}>
             <Tab label='Login'></Tab>
             <Tab label='Register'></Tab>
           </Tabs>
@@ -67,10 +67,15 @@ export default class extends Component {
               <InputLabel htmlFor='username'>Username</InputLabel>
               <Input type='text' id='username'></Input>
             </FormControl>
+            <br />
+            <br />
             <FormControl>
               <InputLabel htmlFor='password'>Password</InputLabel>
               <Input type='password' id='password'></Input>
             </FormControl>
+            <br />
+            <br />
+            <Button variant='contained' color='primary'>Login</Button>
           </TabContainer>
         </Modal>
       </div>
