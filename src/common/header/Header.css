@@ -21,3 +21,15 @@
 .tabs {
   margin-bottom: 20px;
 }
+
+.displayBlock {
+  display: block;
+}
+
+.displayNone {
+  display: none;
+}
+
+.red {
+  color: red
+}
