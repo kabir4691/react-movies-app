@@ -61,11 +61,42 @@ export default class extends Component {
   }
 
   closeModalHandler = () => {
-    this.setState({ isModalOpen: false })
+    this.setState({ 
+      isModalOpen: false,
+      tabsValue: 0,
+      username: '',
+      usernameError: false,
+      password: '',
+      passwordError: false,
+      firstName: '', 
+      firstNameError: false,
+      lastName: '',
+      lastNameError: false,
+      email: '', 
+      emailError: false,
+      contactNumber: '', 
+      contactNumberError: false
+    })
   }
 
   tabsChangeHandler = (event, value) => {
-    this.setState({ tabsValue: value })
+    this.setState({ 
+      tabsValue: value,
+      username: '',
+      usernameError: false,
+      password: '',
+      passwordError: false,
+      firstName: '', 
+      firstNameError: false,
+      lastName: '',
+      lastNameError: false,
+      email: '', 
+      emailError: false,
+      contactNumber: '', 
+      contactNumberError: false
+    })
+  }
+
   inputChangeHandler = ({target: {id, value}}) => {
     this.setState({ [id]: value });
   }
