@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import './Header.css'
 import Button from '@material-ui/core/Button'
 import logo from '../../assets/logo.svg'
@@ -11,6 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
 import PropTypes from 'prop-types'
 import FormHelperText from '@material-ui/core/FormHelperText'
+import BookShow from '../../screens/bookshow/BookShow'
 
 const modalStyle = {
   content: {
@@ -118,6 +120,10 @@ export default class extends Component {
     })
   }
 
+  bookShowHandler = (e) => {
+    ReactDOM.render(<BookShow />, document.getElementById('root'));
+  }
+
   render() {
     let tabContainer;
     if (this.state.tabsValue === 0) {
@@ -203,6 +209,12 @@ export default class extends Component {
         <Button className='login-button' variant='contained' color='default' onClick={this.openModalHandler}>
           Login
         </Button>
+        { this.props.showBookShowButton ? 
+          <div className='bookshow'>
+            <Button className='' variant='contained' color='primary' onClick={this.bookShowHandler}>
+              Book Show
+            </Button>
+          </div> : '' }
         <Modal style={modalStyle} ariaHideApp={false} isOpen={this.state.isModalOpen} contentLabel='loginModal' onRequestClose={this.closeModalHandler}>
           <Tabs className='tabs' onChange={this.tabsChangeHandler} value={this.state.tabsValue}>
             <Tab label='Login'></Tab>

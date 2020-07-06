@@ -33,3 +33,8 @@
 .red {
   color: red
 }
+
+.bookshow {
+  float: right;
+  margin-right: 8px;
+}
