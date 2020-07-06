@@ -4,6 +4,7 @@ import Header from '../../common/header/Header'
 import { withStyles } from '@material-ui/core/styles'
 import moviesData from '../../assets/moviesData'
 import genres from '../../assets/genres'
+import artists from '../../assets/artists'
 import GridList from '@material-ui/core/GridList';
 import GridListTitle from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -54,7 +55,8 @@ class Home extends Component {
     super(props)
     this.state = {
       movieSearch: '',
-      selectedGenres: []
+      selectedGenres: [],
+      selectedArtists: []
     }
   }
 
@@ -63,9 +65,13 @@ class Home extends Component {
   }
 
   genreSelectHandler = (event) => {
-    this.setState({ selectedGenres: event.target.value })
+    this.setState({ selectedGenres: event.target.value.filter(item => item) })
   }
-
+  
+  artistSelectHandler = (event) => {
+    this.setState({ selectedArtists: event.target.value.filter(item => item) })
+  }
+  
   render() {
     const { classes } = this.props;
     return (
@@ -117,6 +123,23 @@ class Home extends Component {
                         <MenuItem key={genre.id} value={genre.name}>
                           <Checkbox checked={this.state.selectedGenres.includes(genre.name)}/>
                           <ListItemText primary={genre.name} />
+                        </MenuItem>
+                       ))}
+                     </Select>
+                  </FormControl>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor='select-artists'>Artist</InputLabel>
+                    <Select
+                     multiple
+                     input={<Input id='select-artists' />}
+                     renderValue={selected => selected.join(', ')}
+                     value={this.state.selectedArtists}
+                     onChange={this.artistSelectHandler}>
+                       <MenuItem >None</MenuItem>
+                       {artists.map(artist => (
+                        <MenuItem key={artist.id} value={`${artist.first_name} ${artist.last_name}`}>
+                          <Checkbox checked={this.state.selectedArtists.includes(`${artist.first_name} ${artist.last_name}`)}/>
+                          <ListItemText primary={`${artist.first_name} ${artist.last_name}`} />
                         </MenuItem>
                        ))}
                      </Select>
