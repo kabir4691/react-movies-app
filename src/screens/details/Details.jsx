@@ -9,12 +9,40 @@ import YouTube from 'react-youtube'
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import StarBorder from '@material-ui/icons/StarBorder'
 
 class Details extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movie: {}
+      movie: {},
+      movieRatingIcons: [
+        {
+           id: 1,
+           stateId: "star1",
+           color: "black"
+        },
+        {
+           id: 2,
+           stateId: "star2",
+           color: "black"
+        },
+        {
+           id: 3,
+           stateId: "star3",
+           color: "black"
+        },
+        {
+           id: 4,
+           stateId: "star4",
+           color: "black"
+        },
+        {
+           id: 5,
+           stateId: "star5",
+           color: "black"
+        }
+      ]
     }
   }
 
@@ -29,6 +57,15 @@ class Details extends Component {
 
   artistClickHandler = (url) => {
     window.location = url;
+  }
+
+  starClickHandler = (id) => {
+    const array = [];
+    for (let icon of this.state.movieRatingIcons) {
+      icon.color = icon.id <= id ? 'yellow' : 'black';
+      array.push(icon);
+    }
+    this.setState({ movieRatingIcons: array })
   }
 
   render() {
@@ -82,6 +119,12 @@ class Details extends Component {
             </div>
           </div>
           <div className="rightDetails">
+            <Typography>
+              <span className='bold'>Rate this movie: </span>
+            </Typography>
+            {this.state.movieRatingIcons.map(icon => (
+              <StarBorder className={icon.color} key={`star${icon.id}`} onClick={() => this.starClickHandler(icon.id)}></StarBorder>
+            ))}
             <div className="bold marginBottom16 marginTop16">
               <Typography>
                   <span className="bold">Artists:</span>
