@@ -16,6 +16,7 @@ import Input from '@material-ui/core/Input'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button'
+import FormHelperText from '@material-ui/core/FormHelperText'
 
 class BookShow extends Component {
   
@@ -28,7 +29,12 @@ class BookShow extends Component {
       selectedShowTime: '',
       selectedTickets: 0,
       ticketUnitPrice: 500,
-      availableTickets: 10
+      availableTickets: 10,
+      locationReqdErr: false,
+      languageReqdErr: false,
+      showDateReqdErr: false,
+      showTimeReqdErr: false,
+      ticketsReqdError: false
     }
   }
 
@@ -56,6 +62,16 @@ class BookShow extends Component {
     this.setState({ selectedTickets: event.target.value });
   }
 
+  formSubmitHandler = event => {
+    this.setState({ 
+      locationReqdErr: !this.state.selectedLocation,
+      languageReqdErr: !this.state.selectedLanguage,
+      showDateReqdErr: !this.state.selectedShowDate,
+      showTimeReqdErr: !this.state.selectedShowTime,
+      ticketsReqdError: !this.state.selectedTickets
+    })
+  }
+
   render() {
     return (
       <div>
@@ -69,7 +85,7 @@ class BookShow extends Component {
               <Typography variant='headline' component='h2'>
                 BOOK SHOW
               </Typography>
-              <FormControl className='formControl'>
+              <FormControl required className='formControl'>
                 <InputLabel htmlFor='location'>Choose location: </InputLabel>
                 <Select
                 value={this.state.selectedLocation}
@@ -82,9 +98,12 @@ class BookShow extends Component {
                   ))}
                 </Select>
               </FormControl>
+              <FormHelperText className={this.state.locationReqdErr ? 'dispBlock' : 'dispNone'}>
+                <span className="red">Required</span>
+              </FormHelperText>
               <br />
               <br />
-              <FormControl className='formControl'>
+              <FormControl required className='formControl'>
                 <InputLabel htmlFor='language'>Choose language: </InputLabel>
                 <Select
                 value={this.state.selectedLanguage}
@@ -97,9 +116,12 @@ class BookShow extends Component {
                   ))}
                 </Select>
               </FormControl>
+              <FormHelperText className={this.state.languageReqdErr ? 'dispBlock' : 'dispNone'}>
+                <span className="red">Required</span>
+              </FormHelperText>
               <br />
               <br />
-              <FormControl className='formControl'>
+              <FormControl required className='formControl'>
                 <InputLabel htmlFor='showDate'>Choose Show Date: </InputLabel>
                 <Select
                 value={this.state.selectedShowDate}
@@ -112,9 +134,12 @@ class BookShow extends Component {
                   ))}
                 </Select>
               </FormControl>
+              <FormHelperText className={this.state.showDateReqdErr ? 'dispBlock' : 'dispNone'}>
+                <span className="red">Required</span>
+              </FormHelperText>
               <br />
               <br />
-              <FormControl className='formControl'>
+              <FormControl required className='formControl'>
                 <InputLabel htmlFor='showTime'>Choose Show Time: </InputLabel>
                 <Select
                 value={this.state.selectedShowTime}
@@ -127,10 +152,18 @@ class BookShow extends Component {
                   ))}
                 </Select>
               </FormControl>
+              <FormHelperText className={this.state.showTimeReqdErr ? 'dispBlock' : 'dispNone'}>
+                <span className="red">Required</span>
+              </FormHelperText>
+              <br />
+              <br />
               <FormControl required className='formControl'>
                   <InputLabel htmlFor='tickets'>Tickets: ( {this.state.availableTickets} available )</InputLabel>
-                <Input id='tickets' value={this.state.selectedTickets || ''} onChange={this.ticketsChangeHandler}/>
+                <Input id='tickets' type='number' value={this.state.selectedTickets || ''} onChange={this.ticketsChangeHandler}/>
               </FormControl>
+              <FormHelperText className={this.state.ticketsReqdError ? 'dispBlock' : 'dispNone'}>
+                <span className="red">Required</span>
+              </FormHelperText>
               <br />
               <br />
               <Typography>
@@ -140,7 +173,7 @@ class BookShow extends Component {
                 Total Price: Rs. {this.state.ticketUnitPrice * this.state.selectedTickets}
               </Typography>
               <br />
-              <Button variant='contained' color='primary'>
+              <Button variant='contained' color='primary' onClick={this.formSubmitHandler}>
                 Book show
               </Button>
             </CardContent>
