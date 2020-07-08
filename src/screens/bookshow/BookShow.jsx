@@ -15,6 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button'
 
 class BookShow extends Component {
   
@@ -24,7 +25,10 @@ class BookShow extends Component {
       selectedLocation: '',
       selectedLanguage: '',
       selectedShowDate: '',
-      selectedShowTime: ''
+      selectedShowTime: '',
+      selectedTickets: 0,
+      ticketUnitPrice: 500,
+      availableTickets: 10
     }
   }
 
@@ -46,6 +50,10 @@ class BookShow extends Component {
 
   showTimeChangeHandler = (event) => {
     this.setState({ selectedShowTime: event.target.value})
+  }
+
+  ticketsChangeHandler = (event) => {
+    this.setState({ selectedTickets: event.target.value });
   }
 
   render() {
@@ -119,6 +127,22 @@ class BookShow extends Component {
                   ))}
                 </Select>
               </FormControl>
+              <FormControl required className='formControl'>
+                  <InputLabel htmlFor='tickets'>Tickets: ( {this.state.availableTickets} available )</InputLabel>
+                <Input id='tickets' value={this.state.selectedTickets || ''} onChange={this.ticketsChangeHandler}/>
+              </FormControl>
+              <br />
+              <br />
+              <Typography>
+                Unit Price: Rs. {this.state.ticketUnitPrice}
+              </Typography>
+              <Typography>
+                Total Price: Rs. {this.state.ticketUnitPrice * this.state.selectedTickets}
+              </Typography>
+              <br />
+              <Button variant='contained' color='primary'>
+                Book show
+              </Button>
             </CardContent>
           </Card>
         </div>
