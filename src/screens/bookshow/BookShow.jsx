@@ -7,6 +7,7 @@ import showDate from '../../assets/showDate'
 import showTime from '../../assets/showTime'
 import Header from '../../common/header/Header';
 import Home from '../home/Home';
+import Confirmation from '../confirmation/Confirmation'
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -38,6 +39,11 @@ class BookShow extends Component {
     }
   }
 
+  componentWillMount() {
+    const { bookingDetails } = this.props;
+    if (bookingDetails) this.setState(bookingDetails);
+  }
+
   backToDetailsHandler = () => {
     ReactDOM.render(<Home />, document.getElementById('root'));
   }
@@ -59,7 +65,9 @@ class BookShow extends Component {
   }
 
   ticketsChangeHandler = (event) => {
-    this.setState({ selectedTickets: event.target.value });
+    let count = parseInt(event.target.value);
+    count = Math.max(0, count);
+    this.setState({ selectedTickets: count });
   }
 
   formSubmitHandler = event => {
@@ -70,6 +78,10 @@ class BookShow extends Component {
       showTimeReqdErr: !this.state.selectedShowTime,
       ticketsReqdError: !this.state.selectedTickets
     })
+
+    if (this.state.selectedLocation && this.state.selectedLanguage && this.state.selectedShowDate && this.state.selectedShowTime && this.state.selectedTickets) {
+      ReactDOM.render(<Confirmation bookingDetails={this.state}/>, document.getElementById('root'));
+    }
   }
 
   render() {
@@ -159,7 +171,7 @@ class BookShow extends Component {
               <br />
               <FormControl required className='formControl'>
                   <InputLabel htmlFor='tickets'>Tickets: ( {this.state.availableTickets} available )</InputLabel>
-                <Input id='tickets' type='number' value={this.state.selectedTickets || ''} onChange={this.ticketsChangeHandler}/>
+                <Input id='tickets' type='number' min='0' value={this.state.selectedTickets || 0} onChange={this.ticketsChangeHandler}/>
               </FormControl>
               <FormHelperText className={this.state.ticketsReqdError ? 'dispBlock' : 'dispNone'}>
                 <span className="red">Required</span>
