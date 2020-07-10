@@ -4,7 +4,6 @@ import './Home.css'
 import Header from '../../common/header/Header'
 import Details from '../details/Details'
 import { withStyles } from '@material-ui/core/styles'
-import moviesData from '../../assets/moviesData'
 import genres from '../../assets/genres'
 import artists from '../../assets/artists'
 import GridList from '@material-ui/core/GridList';
@@ -58,10 +57,36 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      upcomingMoviesData: [],
+      releasedMoviesData: [],
       movieSearch: '',
       selectedGenres: [],
       selectedArtists: []
     }
+  }
+
+  componentDidMount() {
+    fetch(this.props.baseUrl + '/movies?status=RELEASED', { 
+      headers: {
+        "Accept": "application/json;charset=UTF-8"
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.setState({ releasedMoviesData : json.movies});
+    })
+    .catch(err => console.log({err}));
+
+    fetch(this.props.baseUrl + '/movies?status=PUBLISHED', { 
+      headers: {
+        "Accept": "application/json;charset=UTF-8"
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.setState({ upcomingMoviesData : json.movies});
+    })
+    .catch(err => console.log({err}));
   }
 
   movieSearchChangeHandler = ({target: {id, value}}) => {
@@ -81,6 +106,8 @@ class Home extends Component {
   }
   
   render() {
+    const { upcomingMoviesData, releasedMoviesData } = this.state;
+    if (releasedMoviesData.length === 0) return 'Loading';
     const { classes } = this.props;
     return (
       <div>
@@ -89,7 +116,7 @@ class Home extends Component {
           <span>Upcoming Movies</span>
         </div>
         <GridList cols={5} className={classes.gridListUpcomingMovies}>
-          {moviesData.map(movie => (
+          {upcomingMoviesData.map(movie => (
             <GridListTile key={movie.id}>
               <img className='movie-poster' src={movie.poster_url} alt={movie.title} />
               <GridListTileBar title={movie.title} />
@@ -99,7 +126,7 @@ class Home extends Component {
         <div className="flex-container">
           <div className="left">
             <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
-              {moviesData.map(movie => (
+              {releasedMoviesData.map(movie => (
                 <GridListTile className="released-movie-grid-item" key={"grid" + movie.id} onClick={() => this.movieClickHandler(movie.id)}>
                   <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                   <GridListTileBar title={movie.title} subtitle={<span>Release Date: {new Date(movie.release_date).toDateString()}</span>} />
