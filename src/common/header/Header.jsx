@@ -138,7 +138,7 @@ export default class extends Component {
             </FormControl>
             <br />
             <br />
-            <FormControl>
+            <FormControl required>
               <InputLabel htmlFor='password'>Password</InputLabel>
               <Input type='password' id='password' onChange={this.inputChangeHandler} value={this.state.password} />
               <FormHelperText className={this.state.passwordError ? 'displayBlock' : 'displayNone'}>
@@ -180,7 +180,7 @@ export default class extends Component {
             </FormControl>
             <br />
             <br />
-            <FormControl>
+            <FormControl required>
               <InputLabel htmlFor='password'>Password</InputLabel>
               <Input type='password' id='password' onChange={this.inputChangeHandler} value={this.state.password} />
               <FormHelperText className={this.state.passwordError ? 'displayBlock' : 'displayNone'}>
